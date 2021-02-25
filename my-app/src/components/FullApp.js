@@ -2,9 +2,11 @@ import { Component } from 'react';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Loader from "react-loader-spinner";
+import Button from './Button';
 import ErrorNotification from './ErrorNotification'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {fetchImages} from '../services/imagesApi';
+import styles from './FullApp.module.css'
 
 export default class FullApp extends Component {
   state = {
@@ -28,11 +30,12 @@ export default class FullApp extends Component {
     const {images,isLoading,error} = this.state;
 
     return (
-    <div>
+    <div className={styles.App}>
       <Searchbar onSubmit={this.fetchImages}/>
       {error && <ErrorNotification text={error.message}/>}
       {isLoading && <Loader type="Puff" color="#00BFFF" height={150} width={150} />}
       {images.length > 0 && <ImageGallery images={images}/>}
+      <Button />
     </div>) 
   }
 };

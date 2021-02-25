@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
+import styles from './Modal.module.css'
 
 export default class  Modal extends Component {
+    overlayRef = createRef();
 
    componentDidMount(){
        window.addEventListener('keydown', this.handleKeyPress)
@@ -12,12 +14,23 @@ export default class  Modal extends Component {
        if (e.code !== 'Escape') return;
        this.props.onClose();
    }
+   handleOverlayClick = e => {
+       const {current} = this.overlayRef;
+       if (current && e.target !== current){
+           return;
+        };
+       this.props.onClose();
+   }
     render (){
-        return 
-        <div className="Overlay">
-            <div className="Modal">
-                <img src="" alt="" />
+        return (
+            <div className={styles.Overlay} ref={this.overlayRef} onClick={this.handleOverlayClick}>
+                <div className={styles.Modal}>
+                    <img 
+                    src={this.props.modalUrl} 
+                    alt="no image" 
+                    />
+                </div>
             </div>
-        </div>
+        )
     }
 }
